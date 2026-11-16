@@ -1,0 +1,25 @@
+Invariants:
+    Power is available consistently
+    sensor data is reliable 
+    sensor data is instantly communicated
+    A train that arrives will eventually depart on the same rail
+    approach will always come before a depart
+    trains on each track will only run one direction (north bound rail and south bound rail)
+    RTC is reliable
+    The alarm timer is short enough to precede the trains physical arrival at crossing
+    Weather does not effect trains
+    Weather does not impact sensor data
+    
+
+Varying Invariants:
+    Second train approaches during alarm ringing either north or south.
+        approach signal will always precede a depart signal
+    north and south arrive at the same time, one departs sooner than the other
+        approach signal will always precede a depart signal
+    Train stops in intersection and reverses
+        Trains on each track only run in one direction
+        A train that arrives will eventually depart on the same rail
+    Careless well digger cuts the power line to the system
+        The power will never be interupted 
+    Runaway train that speeds faster than approach timer
+        The alarm timer is short enough to precede the trains physical arrival at crossing
