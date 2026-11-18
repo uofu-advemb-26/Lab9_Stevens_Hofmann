@@ -9,6 +9,7 @@ Invariants:
     The alarm timer is short enough to precede the trains physical arrival at crossing
     Weather does not effect trains
     Weather does not impact sensor data
+    If a train is present the alarms are sounding and arms will come down
     
 
 Varying Invariants:
