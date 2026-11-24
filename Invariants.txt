@@ -1,15 +1,18 @@
 Invariants:
-    Power is available consistently
-    sensor data is reliable 
-    sensor data is instantly communicated
-    A train that arrives will eventually depart on the same rail
-    approach will always come before a depart
-    trains on each track will only run one direction (north bound rail and south bound rail)
-    RTC is reliable
-    The alarm timer is short enough to precede the trains physical arrival at crossing
-    Weather does not effect trains
-    Weather does not impact sensor data
-    If a train is present the alarms are sounding and arms will come down
+   16 Power is available consistently
+   17  sensor data is reliable 
+   18  sensor data is instantly communicated
+   19  A train that arrives will eventually depart on the same rail
+   20  approach will always come before a depart
+   21  trains on each track will only run one direction (north bound rail and south bound rail)
+   22  RTC is reliable
+   23  The alarm timer is short enough to precede the trains physical arrival at crossing
+   24  Weather does not effect trains
+   25  Weather does not impact sensor data
+   26  If a train is present the alarms are sounding and arms will come down
+   27 A train cannot depart if it is not present
+   28 The alarm must be on before the arms come down
+   29 The alarm cannot turn off while the arms are down
     
 
 Varying Invariants:
@@ -24,3 +27,44 @@ Varying Invariants:
         The power will never be interupted 
     Runaway train that speeds faster than approach timer
         The alarm timer is short enough to precede the trains physical arrival at crossing
+
+| number | arms_down | alarm_on | northbound_present | southbound_present | north_approach | south_approach | north_depart | south_depart | elapsed | safety_hazard |
+|--------|-----------|----------|--------------------|--------------------|----------------|----------------|--------------|--------------|---------|---------------|
+| 0      | 0         | 0        | 0                  | 0                  | 6              | 5              | 27           | 27           | 0       |               |
+| 1      | 0         | 0        | 0                  | 1                  | 7              | 20             | 27           | 4            | 28      | 26            |
+| 2      | 0         | 0        | 1                  | 0                  | 20             | 7              | 4            | 27           | 28      | 26            |
+| 3      | 0         | 0        | 1                  | 1                  | 20             | 20             | 5            | 6            | 28      | 26            |
+| 4      | 0         | 1        | 0                  | 0                  | 6              | 5              | 27           | 27           | 0       |               |
+| 5      | 0         | 1        | 0                  | 1                  | 7              | 20             | 27           | 4            | 13      |               |
+| 6      | 0         | 1        | 1                  | 0                  | 20             | 7              | 4            | 27           | 14      |               |
+| 7      | 0         | 1        | 1                  | 1                  | 20             | 20             | 5            | 6            | 15      |               |
+| 8      | 1         | 0        | 0                  | 0                  | 6              | 7              | 27           | 27           | 12      | 28, 29        |
+| 9      | 1         | 0        | 0                  | 1                  | 15             | 20             | 27           | 12           | 13      | 26, 28, 29    |
+| 10     | 1         | 0        | 1                  | 0                  | 20             | 15             | 12           | 27           | 14      | 26, 28, 29    |
+| 11     | 1         | 0        | 1                  | 1                  | 20             | 20             | 13           | 14           | 15      | 26, 28, 29    |
+| 12     | 1         | 1        | 0                  | 0                  | 14             | 13             | 27           | 27           | 0       |               |
+| 13     | 1         | 1        | 0                  | 1                  | 15             | 20             | 27           | 4            | 13      |               |
+| 14     | 1         | 1        | 1                  | 0                  | 20             | 15             | 4            | 27           | 14      |               |
+| 15     | 1         | 1        | 1                  | 1                  | 20             | 20             | 13           | 14           | 15      |               |
+
+| number | invariant                                                                                |
+|--------|------------------------------------------------------------------------------------------|
+| 16     | Power is available consistently                                                          |
+| 17     | sensor data is reliable                                                                  |
+| 18     | sensor data is instantly communicated                                                    |
+| 19     | A train that arrives will eventually depart on the same rail                             |
+| 20     | approach will always come before a depart                                                |
+| 21     | trains on each track will only run one direction (north bound rail and south bound rail) |
+| 22     | RTC is reliable                                                                          |
+| 23     | The alarm timer is short enough to precede the trains physical arrival at crossing       |
+| 24     | Weather does not effect trains                                                           |
+| 25     | Weather does not impact sensor data                                                      |
+| 26     | If a train is present the alarms are sounding and arms will come down                    |
+| 27     | A train cannot depart if it is not present                                               |
+| 28     | The alarm must be on before the arms come down                                           |
+| 29     | The alarm cannot turn off while the arms are down                                        |
+
+Specification vs Implementation
+The new FSM we drew was larger with more states but more specific state trasitions and error handling
+All in all it is mor effective and error safe with undefined transitions impossible.
+All trasnsitions taken into accoutn is what made the new FSM larger but it ensured safe handling.
